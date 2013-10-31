@@ -1,0 +1,158 @@
+From MAILER-DAEMON  Thu Oct 31 19:07:04 2013
+Return-Path: <clements@brinckerhoff.org>
+X-Original-To: clements@brinckerhoff.org
+Delivered-To: granitemon@li592-145.members.linode.com
+Received: from localhost (localhost [127.0.0.1])
+	by li592-145.members.linode.com (Postfix) with ESMTP id 7B6911CDF7
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:07:04 +0000 (UTC)
+Received: from li592-145.members.linode.com ([127.0.0.1])
+	by localhost (li592-145.members.linode.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PW9QT9AkNP_I for <clements@brinckerhoff.org>;
+	Thu, 31 Oct 2013 19:07:03 +0000 (UTC)
+Received: from pcp068448pcs.wireless.calpoly.edu (pcp068448pcs.wireless.calpoly.edu [129.65.204.232])
+	by li592-145.members.linode.com (Postfix) with ESMTPSA id B9AB61CD61
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=brinckerhoff.org;
+	s=20130528; t=1383246423;
+	bh=3Z9h6w7nKCdXWnawLFAEOln43MOrm1B6IxgIXRdjcpg=;
+	h=From:Subject:Date:To:From;
+	b=CyrLmwpB2pKVxXNlrQUrFC/eooZM9z2M6Np3ZAPf348xR2/dIMdhD3E68kinhJP2z
+	 LHfdvN8/gLv1znxOpK5obgYiLxQBAPzjsU9Flwz052m3gOZBbQqxzncXaPT+rJEuGS
+	 UqU9enReN8t492uzwBmBc6VlpRPNA5SItFyeWN2o=
+From: John Clements <clements@brinckerhoff.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Subject: test message 1
+Date: Thu, 31 Oct 2013 12:07:04 -0700
+Message-Id: <F0F38612-CF86-4DCB-8ACC-F20E63BEC0D6@brinckerhoff.org>
+To: John Clements <clements@brinckerhoff.org>
+Mime-Version: 1.0 (Apple Message framework v1283)
+X-Mailer: Apple Mail (2.1283)
+X-IMAPbase: 1372532757 0000000003 $NotJunk
+X-UID: 1
+Status: RO
+X-Keywords: $NotJunk                                                             
+Content-Length: 25
+
+this is test message 1
+
+
+
+From MAILER-DAEMON  Thu Oct 31 19:10:40 2013
+Return-Path: <clements@brinckerhoff.org>
+X-Original-To: clements@brinckerhoff.org
+Delivered-To: granitemon@li592-145.members.linode.com
+Received: from localhost (localhost [127.0.0.1])
+	by li592-145.members.linode.com (Postfix) with ESMTP id C00B11CDF7
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:10:40 +0000 (UTC)
+Received: from li592-145.members.linode.com ([127.0.0.1])
+	by localhost (li592-145.members.linode.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MHEnqNqTffoL for <clements@brinckerhoff.org>;
+	Thu, 31 Oct 2013 19:10:40 +0000 (UTC)
+Received: from pcp068448pcs.wireless.calpoly.edu (pcp068448pcs.wireless.calpoly.edu [129.65.204.232])
+	by li592-145.members.linode.com (Postfix) with ESMTPSA id 51C551CD61
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=brinckerhoff.org;
+	s=20130528; t=1383246640;
+	bh=NPAOsBI7hCro2xRwQeia1PKyqKL+qn1CYPd4VNV1SfI=;
+	h=From:Subject:Date:To:From;
+	b=DJpV+BR732dHPNUVLQsDoPXlxz6DRZNOskeOnYBtJh/GoyTcmit6fdxUJBuW+MmsU
+	 egf41kWaVc+SFgYmJAGTlWxukwX8Ie+ojlc3hslY2mfJ35UYW9HNm+y//O/wyRMk24
+	 GMkSjitRimK4Hr7Pp9LhtXFve2tZSZvF0pTo7HbU=
+From: John Clements <clements@brinckerhoff.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Subject: test message 2
+Date: Thu, 31 Oct 2013 12:10:42 -0700
+Message-Id: <B4AC8A64-4934-4559-B672-19A3FA43FD3D@brinckerhoff.org>
+To: John Clements <clements@brinckerhoff.org>
+Mime-Version: 1.0 (Apple Message framework v1283)
+X-Mailer: Apple Mail (2.1283)
+X-UID: 2
+Status: RO
+X-Keywords: $NotJunk                                                                      
+Content-Length: 21
+
+another test message
+
+From MAILER-DAEMON  Thu Oct 31 19:11:45 2013
+Return-Path: <clements@brinckerhoff.org>
+X-Original-To: clements@brinckerhoff.org
+Delivered-To: granitemon@li592-145.members.linode.com
+Received: from localhost (localhost [127.0.0.1])
+	by li592-145.members.linode.com (Postfix) with ESMTP id 41D1D1CDF7
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:11:45 +0000 (UTC)
+Received: from li592-145.members.linode.com ([127.0.0.1])
+	by localhost (li592-145.members.linode.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Lgi30LNFkygZ for <clements@brinckerhoff.org>;
+	Thu, 31 Oct 2013 19:11:44 +0000 (UTC)
+Received: from pcp068448pcs.wireless.calpoly.edu (pcp068448pcs.wireless.calpoly.edu [129.65.204.232])
+	by li592-145.members.linode.com (Postfix) with ESMTPSA id CFFDF1CD61
+	for <clements@brinckerhoff.org>; Thu, 31 Oct 2013 19:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=brinckerhoff.org;
+	s=20130528; t=1383246704;
+	bh=O9wozAO64tqViBcZ5VqMV8AiL4dxxdvFvXGkOYSjjxM=;
+	h=From:Subject:Date:To:From;
+	b=jlhGB/vj9VZvIOB14buvVo7IPqmc2y6St99EKFr/EoITe92m5z/gxjrDYIOyNJ7XK
+	 utNZ7N2B/+AAwTGOusmvQ3kp8zqZti6YSOcyyF+kXoHhprmUjsQTWlOGVDfGPUO6xA
+	 4ZFBbFgS7sjJUoKoVpN/eACVajMzFPG1+9PBMJgs=
+From: John Clements <clements@brinckerhoff.org>
+Content-Type: multipart/mixed; boundary="Apple-Mail=_6A0A0E1B-B988-4801-AEB2-3B68B162F87A"
+Subject: test message with small attachment
+Date: Thu, 31 Oct 2013 12:11:46 -0700
+Message-Id: <8B4A57BF-7AB8-4805-AE0A-0D0E0961B8AC@brinckerhoff.org>
+To: John Clements <clements@brinckerhoff.org>
+Mime-Version: 1.0 (Apple Message framework v1283)
+X-Mailer: Apple Mail (2.1283)
+X-UID: 3
+Status: RO
+X-Keywords: $NotJunk                                                                    
+Content-Length: 1317
+
+
+--Apple-Mail=_6A0A0E1B-B988-4801-AEB2-3B68B162F87A
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
+
+this message has a small attachment
+
+--Apple-Mail=_6A0A0E1B-B988-4801-AEB2-3B68B162F87A
+Content-Disposition: attachment;
+	filename=ass1-rubric.txt
+Content-Type: text/plain;
+	x-unix-mode=0644;
+	name="ass1-rubric.txt"
+Content-Transfer-Encoding: quoted-printable
+
+# Assignment 1 grading rubric
+
+First, you may want to review the assignment itself; it's online at
+
+http://www.brinckerhoff.org/clements/csc123-fa13/Assignments/ass2.html
+
+Here's the grading rubric:
+
+    6 something turned in
+    4 roughly matches problem statement
+    4 no extra work on my part required to chase things down or put =
+things together
+    5 coherent, legible, and correct code
+    4 coherent and legible paragraph
+    3 recording/screenshots
+
+I've done a bit of work on the Section 3 submissions, to try to identify
+where to find the submission itself; sadly, different teams submitted =
+their
+projects in different ways, and I obviously wasn't clear enough in my =
+submission
+specification.
+
+I've randomly chosen three of the below, indicated by "## I'LL GRADE
+THIS ONE"; I'll grade these. I'll send you these grades, to help you
+calibrate your grades.
+
+
+
+--Apple-Mail=_6A0A0E1B-B988-4801-AEB2-3B68B162F87A--
+

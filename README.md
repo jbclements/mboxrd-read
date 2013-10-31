@@ -1,4 +1,5 @@
 mboxrd-read
 ===========
 
-racket functions for reading the MBOXRD (that is, the standard mbox) format. Yes, there are a few close relatives of this.
+Racket functions to read mboxrd files.  This is one of the standard "mbox" formats
+used by unix mail agents.
