@@ -1,6 +1,6 @@
 #lang racket
 
-(require "mboxrd-read.ss"
+(require "main.rkt"
          rackunit
          racket/runtime-path)
 
@@ -13,17 +13,14 @@
   (mboxrd-parse example-mbox))
 
 (let loop ([n 0] [stream mail-stream])
-  (check-true (promise? stream))
-  (define first-mail (force stream))
   (cond [(< n 3)
-         (check-true (cons? first-mail))
-         (match (car first-mail)
-           [(list headers body-promise)
-            (check-true (bytes? headers))
-            (check-true (promise? body-promise))
-            (loop (add1 n) (cdr first-mail))]
-           [other (check-true false)])]
-        [else 
-         (check-true (empty? first-mail))]))
+         (define first-mail (stream-first stream))
+         (check-true (list? first-mail))
+         (check-equal? (length first-mail) 2)
+         (check-true (bytes? (first first-mail)))
+         (check-true (bytes? (second first-mail)))
+         (loop (add1 n) (stream-rest stream))]
+        [else
+         (check-true (stream-empty? stream))]))
 
 
