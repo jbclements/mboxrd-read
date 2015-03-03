@@ -15,10 +15,10 @@
 (require racket/contract
          racket/stream)
 
-(provide/contract [mboxrd-parse (path? . -> . stream?)]
-                  [mboxrd-parse/port (input-port? . -> . stream?)])
+(provide/contract [mboxrd-parse (path? . -> . (stream/c (list/c bytes? bytes?)))]
+                  [mboxrd-parse/port (input-port? . -> . (stream/c (list/c bytes? bytes?)))])
   
-;; mboxrd-parse : path -> (lazy-listof (list/c bytes? (promise/c bytes?)))
+;; mboxrd-parse : 
 ;; given a path to an mbox file, return a lazy list of the messages in the 
 ;; file.  Each file is represented as a list containing a byte-string
 ;; representing the header and the promise of a byte-string representing 
@@ -28,7 +28,7 @@
 (define (mboxrd-parse path)
   (mboxrd-parse/port (open-input-file path)))
 
-;; mboxrd-parse/port : port -> (lazy-listof (list/c bytes? (delay/c bytes?))
+;; mboxrd-parse/port :
 ;; NB: this procedure assumes that it's the only one reading the port. Bad 
 ;; stuff will happen if its not; it doesn't leave the "From " of the next 
 ;; message on the stream.

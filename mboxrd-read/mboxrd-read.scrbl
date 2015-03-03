@@ -8,7 +8,7 @@
  also known as "normal UNIX mbox files", into lazy lists of messages.}
 
 @defproc[(mboxrd-parse [path path?]) 
-         (lazy-listof (list/c bytes? bytes?))]{
+         (stream/c (list/c bytes? bytes?))]{
   given a path to an mbox file, return a stream of the messages in the 
   file.  Each file is represented as a list containing a byte-string
   representing the header and the promise of a byte-string representing 
@@ -18,7 +18,7 @@
  }
 
 @defproc[(mboxrd-parse/port [port input-port?])
-         (lazy-listof (list/c bytes? bytes?))]{
+         (stream/c (list/c bytes? bytes?))]{
   given an input port, return a lazy list of the messages in the port.
 
   NB: this procedure assumes that it's the only one reading the port. Bad 
