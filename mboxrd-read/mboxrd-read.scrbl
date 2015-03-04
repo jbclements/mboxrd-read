@@ -3,6 +3,7 @@
 @title{mboxrd-read}
 
 @(require (for-label "main.rkt"))
+@(require (for-label net/head))
 
 @defmodule[mboxrd-read]{This package parses @deftech{mboxrd} files,
  also known as "normal UNIX mbox files", into lazy lists of messages.}
@@ -28,7 +29,7 @@
   EFFECT: reads from stream, closes it when peek-char returns #<eof>
 }
 
-Additionally, you can use the utilities (e.g. "extract-header") in
+Additionally, you can use the utilities (e.g. @racket[extract-field]) in
 "net/head.ss" to process the header.
 
 Let me know of any bugs.
