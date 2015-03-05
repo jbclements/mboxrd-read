@@ -15,8 +15,9 @@
 (require racket/contract
          racket/stream)
 
-(provide/contract [mboxrd-parse (path? . -> . (stream/c (list/c bytes? bytes?)))]
-                  [mboxrd-parse/port (input-port? . -> . (stream/c (list/c bytes? bytes?)))])
+;; can't use stream/c until next release...
+(provide/contract [mboxrd-parse (path? . -> . stream? #;(stream/c (list/c bytes? bytes?)))]
+                  [mboxrd-parse/port (input-port? . -> . stream? #;(stream/c (list/c bytes? bytes?)))])
   
 ;; mboxrd-parse : 
 ;; given a path to an mbox file, return a lazy list of the messages in the 
