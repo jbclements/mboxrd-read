@@ -15,9 +15,8 @@
 (require racket/contract
          racket/stream)
 
-;; can't use stream/c until next release...
-(provide/contract [mboxrd-parse (path? . -> . stream? #;(stream/c (list/c bytes? bytes?)))]
-                  [mboxrd-parse/port (input-port? . -> . stream? #;(stream/c (list/c bytes? bytes?)))])
+(provide/contract [mboxrd-parse (-> path? (stream/c (list/c bytes? bytes?)))]
+                  [mboxrd-parse/port (-> input-port? (stream/c (list/c bytes? bytes?)))])
   
 ;; mboxrd-parse : 
 ;; given a path to an mbox file, return a lazy list of the messages in the 
@@ -41,40 +40,46 @@
       (begin (close-input-port ip)
              empty-stream)
       (begin
-        (unless (regexp-match #px"From " ip)
-          (error "nonempty mbox file did not begin with \"From \""))
+        (unless (regexp-match #px"^From " ip)
+          (error 'mboxrd-parse/port
+                 "nonempty mbox file did not begin with \"From \""))
         (let loop ()
-          (let*-values ([(msg-in-pipe msg-out-pipe) (make-pipe)]
-                        [(match-result) (regexp-match #px#"\nFrom " ip 0 #f msg-out-pipe)]
-                        [(dc) (close-output-port msg-out-pipe)]
-                        [(hdr-port) (open-output-bytes)]
-                        [(match-result2) (regexp-match #px#"\n\n|\n$" msg-in-pipe 0 #f hdr-port)])
-            (unless match-result2 
-              (error "couldn't find blank line separating header from body:\n ~a"
-                     (get-output-bytes hdr-port)))
-
-            (let* ([empty-body (equal? match-result2 `(#"\n"))]
-                   [header (bytes-append #"From " (regexp-replace* #px#"\n>(>*From )"
-                                                                   (regexp-replace* #px#"\n"
-                                                                                    (get-output-bytes hdr-port)
-                                                                                    #"\r\n")
-                                                                   #"\n\\1")
-                                         #"\r\n\r\n")]
-                   [body (let* ([body-port (open-output-bytes)]
-                                ;; a quick(?) way to drain the characters into the bytes
-                                [dc (regexp-match #px"a^" msg-in-pipe 0 #f body-port)])
-                           (bytes-append (regexp-replace* #px#"\n>(>*From )"
-                                                          (regexp-replace* #px#"\n"
-                                                                           (get-output-bytes body-port)
-                                                                           #"\r\n")
-                                                          #"\n\\1")
-                                         (if empty-body
-                                             #""
-                                             #"\r\n")))])
-              (stream-cons (list header body)
-                           (if match-result
-                               (loop)
-                               empty-stream))))))))
+          (define-values (msg-in-pipe msg-out-pipe) (make-pipe))
+          ;; search for the beginning of the next message:
+          (define match-result (regexp-match #px#"\nFrom " ip 0 #f msg-out-pipe))
+          (close-output-port msg-out-pipe)
+          (define hdr-port (open-output-bytes))
+          ;; search for the break between header and body:
+          (define match-result2 (regexp-match #px#"\n\n|\n$" msg-in-pipe 0 #f hdr-port))
+          (unless match-result2 
+            (error 'mboxrd-parse/port
+                   "couldn't find blank line separating header from body:\n ~a"
+                   (get-output-bytes hdr-port)))
+          (define empty-body (equal? match-result2 `(#"\n")))
+          (define header (bytes-append
+                          #"From "
+                          (regexp-replace* #px#"\n>(>*From )"
+                                           (regexp-replace* #px#"\n"
+                                                            (get-output-bytes hdr-port)
+                                                            #"\r\n")
+                                           #"\n\\1")
+                          #"\r\n\r\n"))
+          (define body
+            (let* ([body-port (open-output-bytes)]
+                   ;; a quick(?) way to drain the characters into the bytes
+                   [dc (regexp-match #px"a^" msg-in-pipe 0 #f body-port)])
+              (bytes-append (regexp-replace* #px#"\n>(>*From )"
+                                             (regexp-replace* #px#"\n"
+                                                              (get-output-bytes body-port)
+                                                              #"\r\n")
+                                             #"\n\\1")
+                            (if empty-body
+                                #""
+                                #"\r\n"))))
+          (stream-cons (list header body)
+                       (if match-result
+                           (loop)
+                           empty-stream))))))
 
 
 
@@ -102,10 +107,9 @@ a
 b")
 
 
-(check-equal?
- (stream->list (mboxrd-parse/port (open-input-string "")))
- null)
-
+  (check-equal?
+   (stream->list (mboxrd-parse/port (open-input-string "")))
+   null)
 
   
   ;; this is what passes for a test case:
@@ -119,5 +123,20 @@ b")
          (list #"From 15\r\n\r\n"
                #"")
          (list #"From 14\r\n\r\n"
-               #"a\r\n\r\nb\r\n"))))
+               #"a\r\n\r\nb\r\n")))
+
+  (check-exn
+   #px"nonempty mbox file did not begin with"
+   (lambda ()
+     (mboxrd-parse/port (open-input-string "abcdefFrom "))))
+
+  (check-exn
+   #px"couldn't find blank line"
+   (lambda ()
+     (mboxrd-parse/port
+      (open-input-string "From my dad
+To: Your Mom
+Subject: get to work!
+From a big brown cow
+To: Betsy")))))
 

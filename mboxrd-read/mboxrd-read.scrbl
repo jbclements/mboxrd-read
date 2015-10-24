@@ -12,7 +12,7 @@
          (stream/c (list/c bytes? bytes?))]{
   given a path to an mbox file, return a stream of the messages in the 
   file.  Each file is represented as a list containing a byte-string
-  representing the header and the promise of a byte-string representing 
+  representing the header and a byte-string representing 
   the body.  These byte-strings can be appended to obtain the original
   message except that every \n in the original is replaced by \r\n to
   match the RFC 2822 format.

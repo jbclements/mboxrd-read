@@ -1,8 +1,0 @@
-(module info (lib "infotab.ss" "setup")
-  (define name "Library for Parsing mboxrd files")
-  (define blurb `("A library of 2 functions for parsing files in the standard mboxrd format"))
-  (define release-notes `())
-  (define categories `(io))
-  (define primary-file `("mboxrd-read.ss"))
-  (define version "0.01")
-  (define doc.txt "doc.txt"))
