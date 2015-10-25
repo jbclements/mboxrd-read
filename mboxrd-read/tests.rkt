@@ -2,6 +2,7 @@
 
 (require "main.rkt"
          "mboxcl2.rkt"
+         net/head
          rackunit
          racket/runtime-path)
 
@@ -19,6 +20,9 @@
          (check-match
           first-mail
           (list (? bytes? b1) (? bytes? b2)))
+         (validate-header
+          (cadr
+           (regexp-match #px"\r\n(.*)$" (first first-mail))))
          (loop (add1 n) (stream-rest stream))]
         [else
          (check-true (stream-empty? stream))]))
@@ -32,6 +36,9 @@
          (check-match
           first-mail
           (list (? bytes? b1) body-thunk))
+         (validate-header
+          (cadr
+           (regexp-match #px"\r\n(.*)$" (first first-mail))))
          (check-true (bytes? ((cadr first-mail))))
          (loop (add1 n) (stream-rest stream))]
         [else

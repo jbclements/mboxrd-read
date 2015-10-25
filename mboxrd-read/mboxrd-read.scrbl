@@ -44,8 +44,10 @@ that you're responsible for.
 @defproc[(mboxcl2-parse [path path-string?])
          (values (-> void?) (stream/c (list/c bytes? (-> bytes?))))]{
   given an input port, returns a @racket[closer] function that closes the input port
-  associated with the file, and a list of lists containing a header string and a
+  associated with the file, and a list of lists containing a header byte-string and a
   thunk that returns the body bytes.
+
+  Please note that the header gets rfc822-style newlines, but the body does not.
 
   Note that after the @racket[closer] function is called, it's not possible to
   extend the lazy list *or* to extract bodies.

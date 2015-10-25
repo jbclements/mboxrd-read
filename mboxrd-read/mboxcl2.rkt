@@ -26,45 +26,56 @@
 ;; match the RFC 2822 format.
 (define (mboxcl2-parse path)
   (define ip (open-input-file path))
-  (values
-   (lambda ()
-     (close-input-port ip))
-   (let loop ([port-posn 0])
-     (file-position ip port-posn)
-     (cond
-       [(eof-object? (peek-char ip))
-        empty-stream]
-       [else
-        (define headers-port (open-output-bytes))
-        ;; search for the end of the headers
-        (define match-result (regexp-match #px"\n\n|\n$" ip 0 #f headers-port))
-        (unless match-result
-          (error 'mboxrd-parse/port
-                 "couldn't find blank line separating header from body:\n ~a"
-                 (get-output-bytes headers-port)))
-        (define empty-body (equal? match-result `(#"\n")))
-        (define headers
-          (regexp-replace* #px#"\n"
-                           (get-output-bytes headers-port)
-                           #"\r\n"))
+  (cond
+    ;; extra check necessary because of add1 below:
+    [(eof-object? (peek-char ip))
+     (close-input-port ip)
+     (values (λ () (void))
+             empty-stream)]
+    [else
+     (values
+      (lambda ()
+        (close-input-port ip))
+      (let loop ([port-posn 0])
+        ;; this extra character is apparently for the \n that separates
+        ;; messages. If the whole file is empty this will break.
+        (file-position ip (add1 port-posn))
         (cond
-          [(equal? headers #"")
+          [(eof-object? (peek-char ip))
            empty-stream]
           [else
-           (match (extract-field #"Content-Length" headers)
-             [#f (error 'mboxcl2-parse
-                        "no content-length header found in headers: ~v\n"
-                        headers)]
-             [len-str
-              (define body-length (string->number
-                                   (string-trim
-                                    (bytes->string/utf-8 len-str))))
-              (define body-posn (file-position ip))               
-              (define (body-thunk)
-                (file-position ip body-posn)
-                (read-bytes body-length ip))
-              (stream-cons (list headers body-thunk)
-                           (loop (+ body-posn body-length)))])])]))))
+           (define headers-port (open-output-bytes))
+           ;; search for the end of the headers
+           (define match-result (regexp-match #px"\n\n|\n$" ip 0 #f headers-port))
+           (unless match-result
+             (error 'mboxrd-parse/port
+                    "couldn't find blank line separating header from body:\n ~a"
+                    (get-output-bytes headers-port)))
+           (define empty-body (equal? match-result `(#"\n")))
+           (define headers
+             (bytes-append
+              (regexp-replace* #px#"\n"
+                               (get-output-bytes headers-port)
+                               #"\r\n")
+              #"\r\n\r\n"))
+           (cond
+             [(equal? headers #"")
+              empty-stream]
+             [else
+              (match (extract-field #"Content-Length" headers)
+                [#f (error 'mboxcl2-parse
+                           "no content-length header found in headers: ~v\n"
+                           headers)]
+                [len-str
+                 (define body-length (string->number
+                                      (string-trim
+                                       (bytes->string/utf-8 len-str))))
+                 (define body-posn (file-position ip))               
+                 (define (body-thunk)
+                   (file-position ip body-posn)
+                   (read-bytes body-length ip))
+                 (stream-cons (list headers body-thunk)
+                              (loop (+ body-posn body-length)))])])])))]))
 
 
 
