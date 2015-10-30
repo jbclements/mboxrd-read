@@ -15,7 +15,7 @@
 (require racket/contract
          racket/stream)
 
-(provide/contract [mboxrd-parse (-> path? (stream/c (list/c bytes? bytes?)))]
+(provide/contract [mboxrd-parse (-> path-string? (stream/c (list/c bytes? bytes?)))]
                   [mboxrd-parse/port (-> input-port? (stream/c (list/c bytes? bytes?)))])
   
 ;; mboxrd-parse : 
