@@ -62,7 +62,7 @@
                               (get-output-bytes headers-port)
                               #"\r\n")
              #"\r\n\r\n"))
-          (unless (regexp-match #px"^From " headers)
+          (unless (regexp-match #px"^(\r\n)?From " headers)
             (error 'mboxcl2-parse
                    "header doesn't start with 'From ': ~e"
                    headers))
