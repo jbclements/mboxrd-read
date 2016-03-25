@@ -15,7 +15,7 @@
   (mboxrd-parse example-mbox))
 
 (let loop ([n 0] [stream mail-stream])
-  (cond [(< n 3)
+  (cond [(< n 5)
          (define first-mail (stream-first stream))
          (check-match
           first-mail
@@ -28,10 +28,10 @@
          (check-true (stream-empty? stream))]))
 
 (define-values (closer mail-stream2)
-  (mboxcl2-parse example-mbox))
+  (mboxcl2-parse example-mbox #:fallback #t))
 
 (let loop ([n 0] [stream mail-stream2])
-  (cond [(< n 3)
+  (cond [(< n 5)
          (define first-mail (stream-first stream))
          (check-match
           first-mail

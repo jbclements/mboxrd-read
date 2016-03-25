@@ -5,10 +5,8 @@
 @(require (for-label "main.rkt"))
 @(require (for-label net/head))
 
-@defmodule[mboxrd-read]{This package parses @deftech{mboxrd} files,
- also known as "normal UNIX mbox files", into lazy lists of messages.
-
-Oh. Um, actually, it now parses mboxcl2 files, as well. Scope creep, I know.}
+@defmodule[mboxrd-read]{This package parses @deftech{mboxrd} and @deftech{mboxcl2} files,
+ also known as "normal UNIX mbox files", into lazy lists of messages.}
 
 @defproc[(mboxrd-parse [path path?]) 
          (stream/c (list/c bytes? bytes?))]{
@@ -25,10 +23,10 @@ Oh. Um, actually, it now parses mboxcl2 files, as well. Scope creep, I know.}
   given an input port, return a lazy list of the messages in the port.
 
   NB: this procedure assumes that it's the only one reading the port. Bad 
-  stuff will happen if its not; it doesn't leave the "From " of the next 
+  stuff will happen if its not; it doesn't leave the @racket["From "] of the next 
   message on the stream.
   
-  EFFECT: reads from stream, closes it when peek-char returns #<eof>
+  EFFECT: reads from stream, closes it when peek-char returns @racket[eof]
 }
 
 @section{mboxcl2}
@@ -41,16 +39,21 @@ for the next line starting with @racket["From "]. The down side is that since
 the body strings aren't read eagerly, closing the file port is a separate operation
 that you're responsible for.
 
-@defproc[(mboxcl2-parse [path path-string?])
+@defproc[(mboxcl2-parse [path path-string?]
+                        [#:fallback fallback? boolean? #f])
          (values (-> void?) (stream/c (list/c bytes? (-> bytes?))))]{
   given an input port, returns a @racket[closer] function that closes the input port
   associated with the file, and a list of lists containing a header byte-string and a
   thunk that returns the body bytes.
 
+  When @racket[fallback?] is true, a message whose header lacks a Content-Length
+  field will instead be processed by searching forward for a line beginning with
+  @racket["From "].
+
   Please note that the header gets rfc822-style newlines, but the body does not.
 
   Note that after the @racket[closer] function is called, it's not possible to
-  extend the lazy list *or* to extract bodies.
+  extend the lazy list or to extract bodies.
 }
 
 Additionally, you can use the utilities (e.g. @racket[extract-field]) in

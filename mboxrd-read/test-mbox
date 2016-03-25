@@ -156,3 +156,66 @@ calibrate your grades.
 
 --Apple-Mail=_6A0A0E1B-B988-4801-AEB2-3B68B162F87A--
 
+From clements@brinckerhoff.org  Thu Mar 24 21:30:59 2016
+Return-Path: <clements@brinckerhoff.org>
+Delivered-To: <granitemon@localhost>
+Received: from desmond.brinckerhoff.org
+	by desmond.brinckerhoff.org (Dovecot) with LMTP id kKozDAO/9FZ/RQAAvMxgrQ
+	for <granitemon@localhost>; Thu, 24 Mar 2016 21:30:59 -0700
+Received: from localhost (localhost [127.0.0.1])
+	by desmond.brinckerhoff.org (Postfix) with ESMTP id 28D0362FC1
+	for <clements@brinckerhoff.org>; Thu, 24 Mar 2016 21:30:59 -0700 (PDT)
+Received: from desmond.brinckerhoff.org ([127.0.0.1])
+	by localhost (desmond.brinckerhoff.org [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RZM_BCEHPt_s for <clements@brinckerhoff.org>;
+	Thu, 24 Mar 2016 21:30:58 -0700 (PDT)
+Received: from [10.0.1.2] (97-86-153-99.dhcp.stls.mo.charter.com [97.86.153.99])
+	by desmond.brinckerhoff.org (Postfix) with ESMTPSA id D756462FC0
+	for <clements@brinckerhoff.org>; Thu, 24 Mar 2016 21:30:58 -0700 (PDT)
+From: John Clements <clements@brinckerhoff.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Subject: test message 234
+Message-Id: <C9AF3A0E-512E-4159-AA5F-CFC9BA07A494@brinckerhoff.org>
+Date: Thu, 24 Mar 2016 21:30:58 -0700
+To: John Clements <clements@brinckerhoff.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+X-UID: 16508
+Status: RO
+X-Keywords: $NotJunk NotJunk                                                                       
+
+yet another test message ... with no content-length header!
+
+From clements@brinckerhoff.org  Thu Mar 24 21:31:18 2016
+Return-Path: <clements@brinckerhoff.org>
+Delivered-To: <granitemon@localhost>
+Received: from desmond.brinckerhoff.org
+	by desmond.brinckerhoff.org (Dovecot) with LMTP id lKozDAO/9FZ/RQAAvMxgrQ
+	for <granitemon@localhost>; Thu, 24 Mar 2016 21:31:18 -0700
+Received: from localhost (localhost [127.0.0.1])
+	by desmond.brinckerhoff.org (Postfix) with ESMTP id B46AA62FC1
+	for <clements@brinckerhoff.org>; Thu, 24 Mar 2016 21:31:18 -0700 (PDT)
+Received: from desmond.brinckerhoff.org ([127.0.0.1])
+	by localhost (desmond.brinckerhoff.org [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4RpBzU2SXV8w for <clements@brinckerhoff.org>;
+	Thu, 24 Mar 2016 21:31:18 -0700 (PDT)
+Received: from [10.0.1.2] (97-86-153-99.dhcp.stls.mo.charter.com [97.86.153.99])
+	by desmond.brinckerhoff.org (Postfix) with ESMTPSA id 6E59762FC0
+	for <clements@brinckerhoff.org>; Thu, 24 Mar 2016 21:31:18 -0700 (PDT)
+From: John Clements <clements@brinckerhoff.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: test message 235
+Message-Id: <B3148A65-38C7-402A-BD94-390F96417397@brinckerhoff.org>
+Date: Thu, 24 Mar 2016 21:31:18 -0700
+To: clements@brinckerhoff.org
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+X-UID: 16509
+Status: RO
+X-Keywords: $NotJunk NotJunk                                                                       
+Content-Length: 29
+
+zzzz I=E2=80=99m tired now.=
+
