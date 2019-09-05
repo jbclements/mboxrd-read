@@ -1,0 +1,61 @@
+Return-path: <libsndfile-devel-bounce@mega-nerd.com>
+X-Spam-Checker-Version: SpamAssassin 3.1.0 (2005-09-13) on amber.ccs.neu.edu
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=AWL,BAYES_00 autolearn=ham 
+	version=3.1.0
+Envelope-to: clements@ccs.neu.edu
+Delivery-date: Thu, 15 Dec 2005 13:35:56 -0500
+Received: from penkwe.pair.com ([209.68.2.65])
+	by amber.ccs.neu.edu with smtp (Exim 4.50)
+	id 1EmxxL-0006or-Uw
+	for clements@ccs.neu.edu; Thu, 15 Dec 2005 13:35:56 -0500
+Received: (qmail 2941 invoked by uid 3168); 15 Dec 2005 18:35:55 -0000
+Delivered-To: clements-brinckerhoff:org-clements@brinckerhoff.org
+Received: (qmail 2938 invoked from network); 15 Dec 2005 18:35:55 -0000
+Received: from localhost.pair.com (HELO penkwe.pair.com) (127.0.0.1)
+  by localhost.pair.com with SMTP; 15 Dec 2005 18:35:55 -0000
+Received: from smtp2.syd.swiftdsl.com.au (smtp2.syd.swiftdsl.com.au [218.214.225.98])
+	by penkwe.pair.com (Postfix) with SMTP id 59CA432C7B
+	for <clements@brinckerhoff.org>; Thu, 15 Dec 2005 13:35:54 -0500 (EST)
+Received: (qmail 1377 invoked from network); 15 Dec 2005 18:36:15 -0000
+Received: from unknown (HELO coltrane.mega-nerd.net) (218.214.64.136)
+  by smtp2.syd.swiftdsl.com.au with SMTP; 15 Dec 2005 18:36:15 -0000
+Received: from coltrane (localhost [127.0.0.1])
+	by coltrane.mega-nerd.net (Postfix) with ESMTP id 974D87B6F;
+	Fri, 16 Dec 2005 05:35:46 +1100 (EST)
+X-Original-To: libsndfile-devel
+Message-ID: <43A1B719.605@plogue.com>
+Date: Thu, 15 Dec 2005 13:34:01 -0500
+From: David Viens <davidv@plogue.com>
+User-Agent: Mozilla Thunderbird 1.0.6 (Windows/20050716)
+X-Accept-Language: en-us, en
+MIME-Version: 1.0
+To: libsndfile-devel@mega-nerd.com
+Subject: [libsndfile-devel] VIRTUAL_IO and format_from_extension.
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [0]
+X-ecartis-version: Ecartis v1.0.0
+Sender: libsndfile-devel-bounce@mega-nerd.com
+Errors-to: libsndfile-devel-bounce@mega-nerd.com
+X-original-sender: davidv@plogue.com
+Precedence: bulk
+Reply-to: libsndfile-devel@mega-nerd.com
+X-list: libsndfile-devel
+
+Hello
+
+Since VIRTUAL_IO opened files d'ont have a filename,
+obviously format_from_extension cant be made to work in this mode,
+So in that case, any idea on how to deal with au,snd,vox,gsm ??
+
+Should we add an filename (even if its empty) in the VIRTUAL_IO
+open command i've requested earlyer today?
+
+Cheers
+------------------------------------------------------------
+libsndfile-devel Mailing List
+To unsubscribe: 
+<mailto:libsndfile-devel-request@mega-nerd.com?Subject=unsubscribe>
+
+

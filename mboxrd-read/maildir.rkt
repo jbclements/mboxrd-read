@@ -3,16 +3,25 @@
 ;; okay, now I moved everything to maildir, and I want the same interface. I'm still
 ;; using dovecot. Hopefully, this should make this version of the code much shorter.
 
+;; a note about maildir and race conditions; this code ignores the race condition issue,
+;; which is mostly okay for maildir. The bad things that can happen are that a file may
+;; be deleted or renamed after the file list (that is, the message list) is obtained and
+;; before the mail file is processed. In the worst case, a rename can mean that a file appears
+;; to be gone, but has just been renamed. We'll see if this is an issue.
 (require racket/contract
          racket/stream
          racket/match
          racket/string
          net/head)
 
-(provide/contract [maildir-parse
+(provide (contract-out
+          [maildir-parse
                    (->* (path-string?)
                         ()
-                        (stream/c (list/c bytes? (-> bytes?))))])
+                        (stream/c (list/c (or/c false? bytes?)
+                                          (-> (or/c false? input-port?)))))]))
+
+(define (false? v) (eq? v #f))
 
 ;; given a path to a maildir, return a lazy list of the messages in the 
 ;; file.  Each file is represented as a list containing a byte-string
@@ -20,7 +29,7 @@
 ;; the body.  These byte-strings can be appended to obtain the original
 ;; message except that every \n in the original is replaced by \r\n to
 ;; match the RFC 2822 format.
-(define (mboxcl2-parse path)
+(define (maildir-parse path)
   (unless (and (directory-exists? path)
                (directory-exists? (build-path path "new"))
                (directory-exists? (build-path path "cur")))
@@ -30,176 +39,78 @@
   (define mail-file-list
     (filter file-exists?
             (append
-             (directory-list (build-path path "new") #:build #t)
-             (directory-list (build-path path "cur") #:build #t))))
-  ;; RIGHT HERE
-  (cond
-    ;; extra check necessary because of add1 below:
-    [(eof-object? (peek-char ip))
-     empty-stream]
-    [else
-     (let loop ([port-posn 0])
-       (file-position ip port-posn)
-       (cond
-         [(eof-object? (peek-char ip))
-          empty-stream]
-         [else
-          (define headers-port (open-output-bytes))
-          ;; search for the end of the headers
-          (define match-result (regexp-match #px#"\n\n|\n$" ip 0 #f headers-port))
-          (unless match-result
-            (error 'mboxrd-parse/port
-                   "couldn't find blank line separating header from body:\n ~a"
-                   (get-output-bytes headers-port)))
-          (define headers
-            (bytes-append
-             (regexp-replace* #px#"\n"
-                              (get-output-bytes headers-port)
-                              #"\r\n")
-             #"\r\n\r\n"))
-          (unless (regexp-match #px"^(\r\n)?From " headers)
-            (error 'mboxcl2-parse
-                   "header doesn't start with 'From ': ~e"
-                   headers))
-          (cond
-            [(equal? headers #"")
-             empty-stream]
-            [else
-             (define body-posn (file-position ip))
-             (define body-length
-               (match (extract-field #"Content-Length" headers)
-                 [#f
-                  (cond [fallback?
-                         (- (scan-for-next-from ip)
-                            body-posn)]
-                        [else
-                         (error 'mboxcl2-parse
-                                "no content-length header found in headers: ~v\n"
-                                headers)])]
-                 [len-str
-                  (string->number
-                   (string-trim
-                    (bytes->string/utf-8 len-str)))]))             
-             (define (body-thunk)
-               (file-position ip body-posn)
-               (read-bytes body-length ip))
-             ;; this extra character is apparently for the \n that separates
-             ;; messages. If the whole file is empty this will break.
-             (stream-cons (list headers body-thunk)
-                          (loop (+ body-posn body-length 1)))])]))]))
+             (directory-list (build-path path "new") #:build? #t)
+             (directory-list (build-path path "cur") #:build? #t))))
+  (let loop ([files-list mail-file-list])
+    (cond [(null? files-list)
+           empty-stream]
+          [else (stream-cons
+                 (list (message-headers (car files-list))
+                       (λ () (message-body-port (car files-list))))
+                 (loop (cdr files-list)))])))
 
-;; given an input port and a loop-continuation function, scan for the next
-;; message beginning (a.k.a. the next #px"\rFrom ". Return the position of
-;; the end of the body.
-(define (scan-for-next-from port)
-  (match (regexp-match #px"\nFrom " port)
-    [#f (sub1 (file-position port))]
-    [other (- (file-position port) 6)]))
+
+;; given a path, return the message's headers. If the file is missing,
+;; return #f instead.
+(define (message-headers path)
+  (with-handlers ([exn:fail:filesystem? (λ (exn) #f)])
+    (call-with-input-file path port->headers)))
+
+;; given a path, return a port open and set to read the body. If the file
+;; is missing, just return #f
+(define (message-body-port path)
+  (with-handlers ([exn:fail:filesystem? (λ (exn) #f)])
+  (define ip (open-input-file path))
+  ;; for effect only:
+  (port->headers ip)
+  ip))
+
+;; given a port, read the headers and return them. EFFECT: advances the
+;; port to the beginning of the body
+(define (port->headers ip)
+  (define headers-port (open-output-bytes))
+  ;; search for the end of the headers
+  (define match-result (regexp-match #px#"\n\n|\n$" ip 0 #f headers-port))
+  (unless match-result
+    (error 'process-message-file/port
+           "couldn't find blank line separating header from body:\n ~a"
+           (get-output-bytes headers-port)))
+  (bytes-append
+   (regexp-replace* #px#"\n"
+                    (get-output-bytes headers-port)
+                    #"\r\n")
+   #"\r\n\r\n"))
 
 
 
 ;; TESTING
 
-
-  
-  ;; is this a procedure that produces a byte-string of
-  ;; the given length?
-(define (bytes-thunk-of-len len)
-  (λ (p)
-    (define b (p))
-    (and (bytes? b) (= (bytes-length b) len))))
-
 (module+ test
   (require rackunit
            racket/block)
 
+
+  (check-exn #px"expected: name of existing directory" 
+             (λ () (maildir-parse "/tmp/not-a-maildir-12374279834918/")))
+  (check-equal? (message-headers "/tmp/bogus-file-!!@#$HT#@H")
+                #f)
+
+  (check-equal? (message-body-port "/tmp/bogus-file-!!@#$HT#@H")
+                #f)
   
-  
-  (check-equal?
-   (stream->list (mboxcl2-parse/port (open-input-string "") #f))
-   null)
-  
-  (define tstr
-    "From oohc
-Content-Length: 22
-
-123456789012345678901
-
-From zabba
-Content-Length: 10
-
-123456789
-
-")
-  
-  (check-match
-   (let ([ip (open-input-string tstr)])
-     (stream->list (mboxcl2-parse/port ip #f)))
-   (list (list #"From oohc\r\nContent-Length: 22\r\n\r\n"
-               (? (bytes-thunk-of-len 22) _p1))
-         (list #"From zabba\r\nContent-Length: 10\r\n\r\n"
-               (? (bytes-thunk-of-len 10) _p2))))
-
-  (block
-   ;; omitting content-length:
-   (define tstr
-     "From oohc
-
-123456789012345678901
-
-From zabba
-
-123456789
-
-")
-   
-   (check-match
-    (let ([ip (open-input-string tstr)])
-      (stream->list (mboxcl2-parse/port ip #t)))
-    (list (list #"From oohc\r\n\r\n"
-                (? (bytes-thunk-of-len 22) _p1))
-          (list #"From zabba\r\n\r\n"
-                (? (bytes-thunk-of-len 10) _p2)))))
-
-  (check-match
-   (let ([ip (open-input-string tstr)])
-     (map (λ(x) ((cadr x)))
-          (stream->list (mboxcl2-parse/port ip #f))))
-   (list #"123456789012345678901\n"
-         #"123456789\n"))
-
-
-  ;; wrong content-length bug:
-  (check-exn
-   #px"header doesn't start with 'From '"
-   (λ() (stream->list
-         (mboxcl2-parse/port
-          (open-input-string "From oohc
-Content-Length: 23
-
-123456789012345678901
-
-From zabba
-Content-Length: 10
-
-123456789
-
-")
-          #f))))
 
   (check-exn
    #px"couldn't find blank line separating header from body"
    (lambda ()
-     (mboxcl2-parse/port (open-input-string "abcdefFrom ") #f)))
+     (port->headers (open-input-string "abcdefFrom "))))
 
   (check-exn
    #px"couldn't find blank line"
    (lambda ()
-     (mboxcl2-parse/port
+     (port->headers
       (open-input-string "From my dad
 To: Your Mom
 Subject: get to work!
 From a big brown cow
-To: Betsy")
-      #f))))
+To: Betsy")))))
 

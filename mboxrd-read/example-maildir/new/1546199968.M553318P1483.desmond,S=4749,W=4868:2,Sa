@@ -1,0 +1,119 @@
+Return-path: <matthias@ccs.neu.edu>
+X-Spam-Checker-Version: SpamAssassin 3.1.0 (2005-09-13) on amber.ccs.neu.edu
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.6 required=5.0 tests=AWL,BAYES_00 autolearn=ham 
+	version=3.1.0
+Envelope-to: clements@ccs.neu.edu
+Delivery-date: Tue, 28 Feb 2006 18:08:19 -0500
+Received: from penkwe.pair.com ([209.68.2.65])
+	by amber.ccs.neu.edu with smtp (Exim 4.50)
+	id 1FEDx4-0002Ud-IA
+	for clements@ccs.neu.edu; Tue, 28 Feb 2006 18:08:18 -0500
+Received: (qmail 46971 invoked by uid 3168); 28 Feb 2006 23:08:18 -0000
+Delivered-To: clements-brinckerhoff:org-clements@brinckerhoff.org
+Received: (qmail 46968 invoked from network); 28 Feb 2006 23:08:18 -0000
+Received: from localhost.pair.com (HELO penkwe.pair.com) (127.0.0.1)
+  by localhost.pair.com with SMTP; 28 Feb 2006 23:08:18 -0000
+Received: from mail7.sea5.speakeasy.net (mail7.sea5.speakeasy.net [69.17.117.9])
+	by penkwe.pair.com (Postfix) with ESMTP id 26BC032C80
+	for <clements@brinckerhoff.org>; Tue, 28 Feb 2006 18:08:18 -0500 (EST)
+Received: (qmail 12056 invoked from network); 28 Feb 2006 23:08:16 -0000
+Received: from dsl092-079-222.bos1.dsl.speakeasy.net (HELO [192.168.0.8]) (felleise@[66.92.79.222])
+          (envelope-sender <matthias@ccs.neu.edu>)
+          by mail7.sea5.speakeasy.net (qmail-ldap-1.03) with SMTP
+          for <clements@brinckerhoff.org>; 28 Feb 2006 23:08:16 -0000
+Mime-Version: 1.0 (Apple Message framework v623)
+In-Reply-To: <ED84ACE5-2108-473B-995D-FBD9F3D9E4EA@brinckerhoff.org>
+References: <f3a3c1835572fc33f5a7c3d668330f44@troubador.co.uk> <C8EE4EF5-BBF7-4F01-8AA1-27B6813F2800@brinckerhoff.org> <15ec739dbc4fbfe67300111bff86b372@troubador.co.uk> <ED84ACE5-2108-473B-995D-FBD9F3D9E4EA@brinckerhoff.org>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+Message-Id: <d454953291806d2fa63af4b4eb026852@ccs.neu.edu>
+Content-Transfer-Encoding: 7bit
+From: Matthias Felleisen <matthias@ccs.neu.edu>
+Subject: Re: Resubmission (was: Re: JFP 582)
+Date: Tue, 28 Feb 2006 18:08:09 -0500
+To: John Clements <clements@brinckerhoff.org>
+X-Mailer: Apple Mail (2.623)
+
+It is customary to write a letter that spells out the changes in detail 
+for those referees who wish to navigate to the new and improved part 
+quickly. This often takes the form of a
+
+(
+   <quote>
+   Ref A wrote: "..."
+   </quote>
+The revised paper addresses this complaint/suggestion with a new 20 
+pages between page 1020 and page 1040.
+)+
+
+without addressing at all what you don't care for in the reports. -- 
+Matthias
+
+
+
+On Feb 28, 2006, at 6:01 PM, John Clements wrote:
+
+>
+> On Sep 21, 2005, at 11:20 PM, JFP wrote:
+>
+>> Thanks John, we'll wait until you can fit the revisions in.
+>
+> Per your suggestion, I've completed a fairly major overhaul of my 
+> earlier submission, JFP 582, and I'd like to resubmit it for your 
+> consideration (attached).
+>
+> In accordance with your reviewers' suggestions, I've rewritten parts 
+> of the introduction, added a section placing the work in context, 
+> added a concrete illustrative example, and moved all of the detailed 
+> proof work into appendices.  I've also made many minor technical and 
+> editorial changes.
+>
+> I believe the result is a stronger paper, and I look forward to the 
+> comments of your reviewers on this updated version.
+>
+> Thanks for your time,
+>
+> John Clements
+>
+> <paper.pdf>
+>>
+>> On 21 Sep 2005, at 20:34, John Clements wrote:
+>>
+>>>
+>>> On Sep 12, 2005, at 9:07 AM, JFP wrote:
+>>>
+>>>> Dear John,
+>>>>
+>>>> We've now received the referees' comments on your paper JFP 582.
+>>>>
+>>>> I'd like to apologize for the delay in response.  We still have not 
+>>>> received the third referee's report on the paper.  Nevertheless, it 
+>>>> is clear from the first two referees that we will be unable to 
+>>>> accept the paper in its current form.  The editor handling the 
+>>>> paper agrees with the second referee who feels that it is primarily 
+>>>> the presentation of the work that needs to be improved, and not the 
+>>>> work itself.  he would encourage you to address these referees' 
+>>>> comments and resubmit the paper.
+>>>>
+>>>> The referees' comments are attached for your information.
+>>>>
+>>>> I would be grateful if you could let me know whether you will 
+>>>> resubmit the paper, and if so a rough timescale.
+>>>
+>>> Thanks for your comments; I think that your reviewers' comments are 
+>>> well-thought out and helpful.
+>>>
+>>> I do plan to resubmit this paper.  My current teaching load is high, 
+>>> so I'm planning to rewrite the paper after this quarter is complete. 
+>>>  I should be ready to resubmit in mid-January.
+>>>
+>>> If there are reasons why an earlier or later submission would be 
+>>> more convenient, please let me know.
+>>>
+>>> Thanks,
+>>>
+>>> John Clements
+>>>
+>>
+>
+
