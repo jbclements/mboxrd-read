@@ -61,7 +61,7 @@
 (check-equal? (stream-length (maildir-parse (build-path here
                                                         "example-maildir"
                                                         ".sub-maildir")))
-              1)
+              2)
 
 
 
